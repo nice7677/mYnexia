@@ -1,0 +1,52 @@
+
+
+	
+	ChangeLog & Tambahan ke source mithia
+
+
+: Source
+
+	- Item id 0 - 10 tidak masuk ke dalam inventory.
+	- Baca icon coin berdasarkan nama identifier dan banyak koin yang di drop.
+	- Jika coin yang di input lebih besar dari yang di miliki, maka drop semua koin yang ada. All in =p
+	- Perubahan map light (gelap - terang) berdasarkan player.curTime()
+	- System creation dengan fail dan success rate + sound effect. ( item yang di dapat jika failed )
+	- Baca country player dari db
+	- Baca Totem player dari db
+	- Tambah type baru durasi spell yang tidak ada timer.. (splNoTickerTime = 1 di database)
+	- Tambah type baru di efek durasi (per miliDetik ,  "while_cast_125")
+	- Tidak bisa mengambil barang yang bukan milik nya. ("This item is cursed by ???" , "This item does not belong to you.") 
+	- Non aktifkan auto broadcast ketika kill seseorang di source (bisa di tambah di lua kalau mau di aktifkan)
+	- Whisp ke "?" untuk melaporkan report(terbaca oleh semua GM). report akan tertulis dalam tabel 'reportLogs' di database. 
+	- Hide party member's helmet ketika tekan tombol "f" 
+	- Tambah baca registry dari gm diatas level 50 "mob_can_detect" , if reg > 0, momon bisa detect gm sprti player lainnya.
+	- New feature to show character title or not. Read from "show_title" registry.
+	- Ubah base move speed character menjadi 90
+	- 
+	
+: Baca dari function di LUA
+
+	- onWalk
+	- onF4Key
+	- onTradeKey
+	- onLeaveGroup
+	- onGroupXP
+	- onSummonedMount
+	- onSpecialMapR
+	- onClick
+	- onSwing
+	- onViewBoard
+	- onCreation
+	- onEnterCave
+	- onLuaTest
+
+	
+
+	
+	
+	
+	
+	
+	
+	
+	

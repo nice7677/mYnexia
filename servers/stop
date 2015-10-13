@@ -1,0 +1,6 @@
+#! /bin/bash
+
+kill -9 `pgrep login-server`
+kill -9 `pgrep char-server`
+kill -9 `pgrep map-server`
+kill -9 `pgrep save-server`
