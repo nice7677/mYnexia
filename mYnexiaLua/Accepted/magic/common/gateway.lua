@@ -45,77 +45,72 @@ cast = function(player, question)
 	end
 	if player.region == 1 then
 		if q == "u" or q == "n" then
-			x = math.random(71,76)
-			y = math.random(24,27)
-			player:warp(1000,x,y)
+			player:warp(1000, math.random(71,76), math.random(24,27))
 			player:sendMinitext("You arrived at North Gate of Buya")
 		elseif q == "s" then
-			x = math.random(74, 77)
-			y = math.random(145, 147)
-			player:warp(1000,x,y)
+			player:warp(1000, math.random(74, 77), math.random(145, 147))
 			player:sendMinitext("You arrived at South Gate of Buya")
 		elseif q == "b" or q == "w" then
-			x = math.random(8, 10)
-			y = math.random(89, 91)
-			player:warp(1000,x,y)
+			player:warp(1000, math.random(8, 10), math.random(89, 91))
 			player:sendMinitext("You arrived at West Gate of Buya")
 		elseif q == "t" or q == "e" then
-			x = math.random(133, 135)
-			y = math.random(88, 90)
-			player:warp(1000,x,y)
+			player:warp(1000, math.random(133, 135), math.random(88, 90))
 			player:sendMinitext("You arrived at East Gate of Buya")
-		else
-			player:sendAnimation(246)
-			player:sendMinitext("Cannot find any Gate")
-		end
-	elseif player.region == 6 then		-- Mythic I
-		if q == "u" or q == "n" then
-			x = math.random(28, 30)
-			player:warp(6000, x, 14)
-			player:sendMinitext("You arrived at North Gate of Mythic I")
-		elseif q == "s" then
-			x = math.random(28, 30)
-			player:warp(6000, x, 50)
-			player:sendMinitext("You arrived at South Gate of Mythic I")
-		elseif q == "b" or q == "w" then
-			x = math.random(8, 9)
-			y = math.random(22, 24)
-			player:warp(6000, x, y)
-			player:sendMinitext("You arrived at West Gate of Mythic I")
-		elseif q == "t" or q == "e" then
-			x = math.random(46, 48)
-			y = math.random(33, 34)
-			player:warp(6000, x, y)
-			player:sendMinitext("You arrived at East Gate of Mythic I")
 		else
 			player:sendAnimation(246)
 			player:sendMinitext("Cannot find any Gate")
 		end
 	elseif player.region == 5 then		-- Vortex
 		if q == "u" or q == "n" then
-			x = math.random(32, 33)
-			y = math.random(13, 14)
-			player:warp(5000,x,y)
+			player:warp(5000, math.random(32, 33), math.random(13, 14))
 			player:sendMinitext("You arrived at North Gate of Vortex")
 		elseif q == "s" then
-			x = math.random(33, 35)
-			y = math.random(50)
-			player:warp(5000,x,y)
+			player:warp(5000, math.random(33, 35), 50)
 			player:sendMinitext("You arrived at South Gate of Vortex")
 		elseif q == "b" or q == "w" then
-			x = math.random(10,12)
-			y = math.random(33,35)
-			player:warp(5000,x,y)
+			player:warp(5000, math.random(10,12), math.random(33,35))
 			player:sendMinitext("You arrived at West Gate of Vortex")
 		elseif q == "t" or q == "e" then
-			x = math.random(57,59)
-			y = math.random(34, 36)
-			player:warp(5000,x,y)
+			player:warp(5000, math.random(57,59), math.random(34, 36))
 			player:sendMinitext("You arrived at East Gate of Vortex")
 		else
 			player:sendAnimation(246)
 			player:sendMinitext("Cannot find any Gate")
+		end		
+	elseif player.region == 6 then		-- Mythic I
+		if q == "u" or q == "n" then
+			player:warp(6000, math.random(28, 30), 14)
+			player:sendMinitext("You arrived at North Gate of Mythic I")
+		elseif q == "s" then
+			player:warp(6000, math.random(28, 30), 50)
+			player:sendMinitext("You arrived at South Gate of Mythic I")
+		elseif q == "b" or q == "w" then
+			player:warp(6000,  math.random(8, 9), math.random(22, 24))
+			player:sendMinitext("You arrived at West Gate of Mythic I")
+		elseif q == "t" or q == "e" then
+			player:warp(6000, math.random(46, 48), math.random(33, 34))
+			player:sendMinitext("You arrived at East Gate of Mythic I")
+		else
+			player:sendAnimation(246)
+			player:sendMinitext("Cannot find any Gate")
 		end
+	elseif player.region == 7 then
+		if q == "u" or q == "n" then
+			player:warp(7000, math.random(29, 31), math.random(8, 10))
+			player:sendMinitext("You arrived at North Gate of Mythic II")
+		elseif q == "s" then
+			player:warp(7000, math.random(28, 32), math.random(49, 53))
+			player:sendMinitext("You arrived at South Gate of Mythic II")
+		elseif q == "b" or q == "w" then
+			player:warp(7000, math.random(4, 8), math.random(33, 37))
+			player:sendMinitext("You arrived at West Gate of Mythic II")
+		elseif q == "t" or q == "e" then
+			player:warp(7000, math.random(53, 57), math.random(31, 35))
+			player:sendMinitext("You arrived at East Gate of Mythic II")
+		else
+			anim(player)
+			player:sendMinitext("Cannot find any Gate")
+		end		
 	elseif player.region == 10 then		-- Castle
 		if q == "u" or q == "n" then
 			x = math.random(29, 31)

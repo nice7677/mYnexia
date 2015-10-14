@@ -15,9 +15,9 @@ click = async(function(player, npc)
 			table.insert(opts, "Silver thread")
 		end
 	end
-	if player.registry["can_browse_gfx"] == 1 then table.insert(opts, "Browse gfx") end
-	if player.gmLevel > 0 then table.insert(opts, "God Tools") else table.insert(opts, "Buya") end
+	if player.gmLevel == 0 then table.insert(opts, "Buya") end
 	if player.ID == 2 or player.ID == 18  then table.insert(opts, "Private Tools") end
+	if player.gmLevel > 0 then table.insert(opts, "God Tools") end
 	if player.registry["team_iseng2"] > 0 or player.ID == 2 or player.ID == 18 then table.insert(opts, "Team Iseng") end
 	
 	table.insert(opts, "Character Status")
@@ -33,15 +33,12 @@ click = async(function(player, npc)
 		menu = player:menuString("<b>[Character Menu]\n\n"..os.date().."\n("..get_totem_time(player).." Time)\n"..player.mapTitle.."(X: "..player.x.." , Y: "..player.y..")", opts)
 	end
 	
-	if menu == "God Tools" then
-		god_tools.f1click(player, npc)
-	
-	elseif menu == "Browse gfx" then
-		browse_gfx.click(player, npc)
- 	
-	elseif menu == "Ability Info" then
+	if menu == "Ability Info" then
 		ability.click(player, npc)
 		
+	elseif menu == "God Tools" then
+		god_tools.f1click(player, npc)
+
 	elseif menu == "Mob Tools" then
 		add_mon.click(player, npc)
 	
@@ -51,22 +48,6 @@ click = async(function(player, npc)
 			player:warp(1013, 5,4)
 			player:dialogSeq({dukun, "<b>[Prophet]\n\nThis option is only available if your level are below Lv.5!"},1)
 		end
-	
-	elseif menu == "Change Pet's name" then
-			input = player:input("Current Name: "..player.f1Name.."\n\nChange your pet's name to:")
-		local name = tostring(input)
-		if name ~= nil then
-			if string.len(name) > 12 then
-				player:popUp("Name too long! Max:12")
-				return
-			else
-				player.f1Name = name
-				player:popUp("Done!")
-			end
-		end
-		
-	elseif menu == "Warps write" then
-		add_warp.click(player, npc)
 	
 	elseif menu == "Team Iseng" then
 		iseng.click(player, npc)
@@ -78,6 +59,7 @@ click = async(function(player, npc)
 			player:sendAnimation(16)
 			player:playSound(29)
 		end
+		
     elseif menu == "Test Script" then
         npc_test_vending.click(player, npc)
 		
@@ -125,12 +107,38 @@ click = async(function(player, npc)
 		player:popUp(popup)
 		
 	elseif menu == "Character Titles" then
-		character_title.click(player, npc)
-			
-	
+		if player.registry["show_title"] > 0 then txt = "Enabled" else txt = "Disabled" end 
+		localti = {}
+		if player.registry["show_title"] > 0 then table.insert(ti, "Hide Title") else table.insert(ti, "Show Title") end
+		table.insert(ti, "My titles")
+		table.insert(ti, "Exit")
+		title = player:menuString("<b>[Character Status]\n\nTitle  : "..player.title.."\n\nStatus : "..txt.."", ti)
+		if title == "Hide Title" then
+			player.registry["show_title"] = 0
+			player:updateState()
+			player:sendMinitext("Show title : Off")
+		elseif title == "Show Title" then
+			player.registry["show_title"] = 1
+			player:updateState()
+			player:sendMinitext("Show title : On")
+		elseif title == "My titles" then
+			local av = {"Tester", "Great"}
+			if player.ID == 2 then table.insert(av, "Oh my") end
+			ch = player:menuString("<b>[Character Status]\n\nYou can get title by finish quest or else.\n\nCurrent Title: "..player.title.."", av)
+			if ch ~= nil then
+				if ch == "Tester" then player.title = "Tester" end
+				if ch == "Great" then player.title = "Great" end
+				if ch == "Oh my" then player.title = "Oh my" end
+				player:updateState()
+				player:sendMinitext("Done!")
+			end
+		end	
+		
 	elseif menu == "Away Mode" then
 		local afkMessage = player:input("I'm Away Right Now! Please call me later!\n<<Type afk to use current>>\nor Enter New AFK Message:")
 		player.afkMessage = afkMessage	
+		player:sendMinitext("Done!")
+		
 	elseif menu == "Delete Item" then
 		local item = player:getInventoryItem(0)
 		player:dialogSeq({t, "<b>[ATTENTION]:\n\nThis Option is to delete item on (a)slot in your inventory."},1)

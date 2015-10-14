@@ -1,11 +1,25 @@
 
 onLuaTest = function(player)
-
-	--timerTick
-	-- extendHit
 	
-	player:talk(2, ""..player.timerTick)
-
+	-- test_extendHit
+	
+	moved = true
+	mob = player:getObjectsInMap(player.m, BL_NPC)
+	
+	player:sendAnimationXY(198, player.x-3, player.y-1)
+	player:sendAnimationXY(198, player.x-2, player.y-2)
+	player:sendAnimationXY(198, player.x-1, player.y-3)
+	player:sendAnimationXY(198, player.x+1, player.y-3)
+	player:sendAnimationXY(198, player.x+2, player.y-2)
+	player:sendAnimationXY(198, player.x+3, player.y-1)
+	
+	--player:sendAnimationXY(198, player.x+3, player.y+1)
+	--player:sendAnimationXY(198, player.x+2, player.y+2)
+	--player:sendAnimationXY(198, player.x+1, player.y+3)
+	--player:sendAnimationXY(198, player.x-1, player.y+3)
+	--player:sendAnimationXY(198, player.x-2, player.y+2)
+	--player:sendAnimationXY(198, player.x-3, player.y+1)
+	--
 end
 
 

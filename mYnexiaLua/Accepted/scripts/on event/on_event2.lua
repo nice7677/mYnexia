@@ -23,16 +23,16 @@ end
 	
 onClick = function(player, target)
 	
-	
+	player:freeAsync()
 	
 	if target.registry["v_open"] == 1 and target:hasDuration("vending_menu") then
 		if target.ID == player.ID then
+			onF4Key(player)
 			return
-		else
-			player:freeAsync()
-			vending.showShop(player, target)
 		end
+		vending_core.showshop(player, target)
 	end
+	return
 end
 
 -----------------------------------------------------------------------------------------------------
@@ -49,6 +49,18 @@ onF4Key = function(player)
 	
 	player:freeAsync()
 	vending_menu.click(player, npc)
+end
+
+-----------------------------------------------------------------------------------------------------
+
+onF12Key = function(player)
+	
+	local npc = NPC(66)
+	
+	if player.gmLevel == 0 then return else
+		player:freeAsync()
+		gm_tools.click(player, npc)
+	end
 end
 
 -----------------------------------------------------------------------------------------------------
@@ -142,7 +154,11 @@ onWalk = function(player)
 				end
 			end
 		end
-	
+		
+	elseif m == 20018 then
+		bomber_game.onWalk(player)
+		
+		
 	elseif m == 20017 then
 --[[
 		if x == 160 then
@@ -155,6 +171,23 @@ onWalk = function(player)
 			if y == 160 then maze.finish(player) return end
 		end
 ]]--		
+	elseif m == 2007 then
+		tile = {18332, 18322, 18288, 18327, 18338, 18280}
+		for i = 1, #tile do
+			if getTile(player.m, player.x, player.y) == tile[i] then
+				if player.state == 1 then return else
+					boots = player:getEquippedItem(EQ_BOOTS)
+					if boots ~= nil and boots.yname == "adventurer_shoes" then
+						player:sendAnimation(280)
+					return else
+						player:sendAnimation(188)
+						player:playSound(44)
+						player.attacker = player.ID
+						player:removeHealth(player.health)
+					end
+				end
+			end
+		end
 	end
 end
 

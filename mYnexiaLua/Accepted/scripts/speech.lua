@@ -338,7 +338,33 @@ onSay = function(player)
 			end
 			printf = 0
 		end
-
+		
+		if lspeech == "nthrow" then
+			if player.registry["throw_icon"] > 5450 then
+				player:sendMinitext("Throw Icon : "..player.registry["throw_icon"])
+			return else
+				player.registry["throw_icon"] = player.registry["throw_icon"] + 1
+				player:sendMinitext("Throw Icon : "..player.registry["throw_icon"])
+			end
+			printf = 0
+		elseif lspeech == "pthrow" then
+			if player.registry["throw_icon"] <= 0 then
+				player:sendMinitext("Throw Icon : "..player.registry["throw_icon"])
+			return else
+				player.registry["throw_icon"] = player.registry["throw_icon"] - 1
+				player:sendMinitext("Throw Icon : "..player.registry["throw_icon"])
+			end
+			printf = 0
+		elseif lspeech == "throw" then
+			player:sendMinitext("Throw Icon : "..player.registry["throw_icon"])
+			printf = 0
+		elseif string.match(lspeech, "throw (%d+)") ~=nil then
+			icon = tonumber(string.match(lspeech, "throw (%d+)"))
+			player.registry["throw_icon"] = icon
+			player:sendMinitext("Throw Icon : "..player.registry["throw_icon"])
+			printf = 0
+		end
+		
 		if lspeech == "/totalmob" then
 			mob = player:getObjectsInMap(player.m, BL_MOB)
 			player:talk(2, "#Mobs : "..#mob)
@@ -415,6 +441,22 @@ onSay = function(player)
 			player:sendMinitext("Hair color: "..p.gfxHairC)
 			printf = 0
 			player:updateState()
+		end
+		if lspeech == "nhelmc" then
+			p.gfxHelmC = p.gfxHelmC + 1
+			player:sendMinitext("Helm Color: "..p.gfxHelmC)
+			printf = 0
+			player:updateState()
+		end
+		if lspeech == "phelmc" then
+			p.gfxHelmC = p.gfxHelmC - 1
+			player:sendMinitext("Helm Color: "..p.gfxHelmC)
+			printf = 0
+			player:updateState()
+		end
+		if lspeech == "helmc" then
+			player:sendMinitext("Helm Color: "..p.gfxHelmC)
+			printf = 0
 		end
 		if lspeech == "phairc" then
 			p.gfxHairC = p.gfxHairC -1

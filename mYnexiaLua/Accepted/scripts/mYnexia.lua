@@ -1,4 +1,5 @@
 
+
 getFrontTarget = function(player, cell, type)
 	
 	local target = {}
@@ -14,18 +15,6 @@ getFrontTarget = function(player, cell, type)
 	end
 	return target[1]
 end
-
-mallDialog = function(player, item)
-
-	d = "What "..item.." would you like to wear today?\n\n"
-	d = d.."Event points : "..format_number(player.registry["event_point"]).."\n"
-	d = d.."Play points  : "..format_number(player.registry["play_point"]).."\n"
-	d = d.."Fame points  : "..format_number(player.registry["fame_point"]).."\n"		
-
-	return d
-end
-
-addHealth = function(player, amount) player:addHealthExtend(math.abs(tonumber(amount)), 0,0,0,0,0) end
 
 giveLegend = function(player, text, name, icon, color, type)
 	
@@ -388,6 +377,13 @@ gateWarp = function(player, region, gate)
 		if gate == "s" then x = math.random(28, 30) 	y = 50 						end
 		if gate == "b" then x = math.random(8, 9) 		y = math.random(22, 24) 	end
 		if gate == "t" then x = math.random(46, 48) 	y = math.random(33, 34) 	end
+-- Region 7 - Mythic II
+	elseif region == 7 then m = 7000
+		if gate == "u" then x = math.random(29, 31)		y = math.random(8, 10) end
+		if gate == "s" then x = math.random(28, 32)		y = math.random(49, 53) end
+		if gate == "b" then x = math.random(4, 8)		y = math.random(33, 37) end
+		if gate == "t" then x = math.random(53, 57)		y = math.random(31, 35) end
+		
 -- Region 10 - Castle
 	elseif region == 10 then m = 10000
 		if gate == "u" then x = math.random(29, 31) 	y = math.random(27, 29) 	end
@@ -486,59 +482,32 @@ gfxClone = function(player, npc)
 	local boots = player:getEquippedItem(EQ_BOOTS)
 	local facea = player:getEquippedItem(EQ_FACEACC)
 	local neck = player:getEquippedItem(EQ_NECKLACE)
-	
-	if player.title ~= nil then npc.gfxName = player.title.." "..player.name end
-	if player.title == nil then npc.gfxName = player.name end
+
+	if player.title ~= nil then
+		if player.registry["show_title"] == 1 then
+			npc.gfxName = player.title.." "..player.name
+		else
+			npc.gfxName = player.name
+		end
+	else
+		npc.gfxName = player.name
+	end
 	npc.gfxFace = player.face
 	npc.gfxFaceC = player.faceColor
 	npc.gfxHair = player.hair
 	npc.gfxHairC = player.hairColor
 	npc.gfxSkin = player.skinColor
+	npc.gfxDye = player.armorColor
 	npc.gfxFaceAT = 65535
 	npc.gfxHelm = 255
-	if weap ~= nil then
-		npc.gfxWeap = weap.look
-		npc.gfxWeapC = weap.lookC
-	else
-		npc.gfxWeap = 65535
-	end
-	if crown ~= nil then
-		npc.gfxCrown = crown.look
-		npc.gfxCrownC = crown.lookC
-	else
-		npc.gfxCrown = 65535
-	end
-	if cape ~= nil then
-		npc.gfxCape = cape.look
-		npc.gfxCapeC = cape.lookC
-	else
-		npc.gfxCape = 65535
-	end
 	
-	if shield ~= nil then
-		npc.gfxShield = shield.look
-		npc.gfxShieldC = shield.lookC
-	else
-		npc.gfxShield = 65535
-	end
-	if boots ~= nil then
-		npc.gfxBoots = boots.look
-		npc.gfxBootsC = boots.lookC
-	else
-		npc.gfxBoots = player.sex
-	end
-	if facea ~= nil then
-		npc.gfxFaceA = facea.look
-		npc.gfxFaceAC = facea.lookC
-	else
-		npc.gfxFaceA = 65535
-	end
-	if neck ~= nil then
-		npc.gfxNeck = neck.look
-		npc.gfxNeckC = neck.lookC
-	else
-		npc.gfxNeck = 65535
-	end
+	if weap ~= nil then npc.gfxWeap = weap.look npc.gfxWeapC = weap.lookC else npc.gfxWeap = 65535 end
+	if crown ~= nil then npc.gfxCrown = crown.look npc.gfxCrownC = crown.lookC else npc.gfxCrown = 65535 end
+	if cape ~= nil then npc.gfxCape = cape.look npc.gfxCapeC = cape.lookC else npc.gfxCape = 65535 end
+	if shield ~= nil then npc.gfxShield = shield.look npc.gfxShieldC = shield.lookC else npc.gfxShield = 65535 end
+	if boots ~= nil then npc.gfxBoots = boots.look npc.gfxBootsC = boots.lookC else npc.gfxBoots = player.sex end
+	if facea ~= nil then npc.gfxFaceA = facea.look npc.gfxFaceAC = facea.lookC else npc.gfxFaceA = 65535 end
+	if neck ~= nil then npc.gfxNeck = neck.look npc.gfxNeckC = neck.lookC else npc.gfxNeck = 65535 end
 	if coat ~= nil then
 		npc.gfxArmor = coat.look
 		npc.gfxArmorC = coat.lookC
@@ -551,6 +520,38 @@ gfxClone = function(player, npc)
 		end
 	end
 	return npc
+end
+
+gfxLook = function(block1, block2)
+
+	block2.gfxFace = block1.gfxFace
+	block2.gfxFaceC = block1.gfxFaceC
+	block2.gfxFace = block1.gfxFace
+	block2.gfxHair = block1.gfxHair
+	block2.gfxHairC = block1.gfxHairC
+	block2.gfxFaceC = block1.gfxFaceC 
+	block2.gfxSkinC = block1.gfxSkinC
+	block2.gfxDye = block1.gfxDye
+	block2.gfxWeap = block1.gfxWeap
+	block2.gfxWeapC = block1.gfxWeapC
+	block2.gfxArmor = block1.gfxArmor
+	block2.gfxArmorC = block1.gfxArmorC
+	block2.gfxShield = block1.gfxShield
+	block2.gfxShieldC = block1.gfxShieldC
+	block2.gfxHelm = block1.gfxHelm
+	block2.gfxHelmC = block1.gfxHelmC
+	block2.gfxCape = block1.gfxCape
+	block2.gfxCapeC = block1.gfxCapeC
+	block2.gfxCrown = block1.gfxCrown
+	block2.gfxCrownC = block1.gfxCrownC
+	block2.gfxFaceA = block1.gfxFaceA
+	block2.gfxFaceAC = block1.gfxFaceAC
+	block2.gfxFaceAT = block1.gfxFaceAT
+	block2.gfxFaceATC = block1.gfxFaceATC
+	block2.gfxBoots = block1.gfxBoots
+	block2.gfxBootsC = block1.gfxBootsC
+	block2.gfxNeck = block1.gfxNeck
+	block2.gfxNeckC = block1.gfxNeckC
 end
 
 
@@ -978,10 +979,26 @@ finishedQuest = function(player, npc) player:sendAnimation(133) player:playSound
 notEnoughMP = function(block) anim(block) block:sendMinitext("Not Enough MP!")	end
 notEnoughHP = function(block) anim(block) block:sendMinitext("Not Enough HP!") end		
 darkShadow = function(block) block:sendAnimation(149) block:playSound(31) block:sendMinitext("Dark shadow took your souls!") end
+bold = function(text) return "<b>"..text end
+addHealth = function(player, amount) player:addHealthExtend(amount, 0,0,0,0,0) end
 
+swap = function(player, target)
 
+	player.registry["swap_x"] = player.x
+	player.registry["swap_y"] = player.y
+	player:warp(target.m, target.x, target.y)
+	target:warp(player.m, player.registry["swap_x"], player.registry["swap_y"])
+end
 
+mallDialog = function(player, item)
 
+	d = "What "..item.." would you like to wear today?\n\n"
+	d = d.."Event points : "..format_number(player.registry["event_point"]).."\n"
+	d = d.."Play points  : "..format_number(player.registry["play_point"]).."\n"
+	d = d.."Fame points  : "..format_number(player.registry["fame_point"]).."\n"		
+
+	return d
+end
 
 
 

@@ -1,5 +1,76 @@
 
+bomber_start = {
+
+cast = function(player)
+
+	local armor = {10018, 10019, 10022, 10025, 10026, 10049, 10088, 10089}
+
+	if player:hasDuration("bomber_start") then
+		player:flushDurationNoUncast(42, 42)
+		player:broadcast(player.m, "=== Bomber mania canceled !! ===")
+	return else
+		pc = player:getObjectsInMap(player.m, BL_PC)
+		if #pc > 0 then
+			for i = 1, #pc do
+				gfxClone(pc[i], pc[i])
+				pc[i].gfxWeap = 65535
+				pc[i].gfxArmor = armor[math.random(#armor)]
+				pc[i].gfxShield = 65535
+				pc[i].gfxBoots = 65535
+				pc[i].gfxClone = 1
+				pc[i]:updateState()
+			end
+		end
+				
+		player:setDuration("bomber_start", 10000)
+		player:broadcast(player.m, "=== Bomber mania will start in 10 seconds ===")
+	end
+end,
+
+uncast = function(player)
+
+	local around = player:getObjectsInMap(player.m, BL_PC)
+	
+	bomber_game.cast(around[math.random(#around)])
+end		
+}
+
+----------------------------------------------------------------------------------------------------------------------------
+
+respawn_game = {
+
+while_cast = function(player) player:talk(2, "Respawn in ".. player:getDuration("respawn_game")/1000 .." s") end,
+
+uncast = function(player)
+
+end
+}
+
+----------------------------------------------------------------------------------------------------------------------------	
+
+
 bomber_game = {
+
+onWalk = function(player)
+
+	for tile = 35009, 35016 do
+		if getTile(player.m, player.x, player.y) == tile or getTile(player.m, player.x, player.y) == 628 then
+			if player.state == 1 then return else
+				if player:hasDuration("bomber_game") then
+					anim(player)
+					pushBack(player)
+				return else
+					player:playSound(73)
+					player:sendAnimationXY(137, player.x, player.y)
+					player:sendAnimation(142)
+					player.state = 1
+					player:updateState()
+				end
+	--			player:setDuration("respawn_game", 5000)
+			end
+		end
+	end
+end,
 
 cast = function(player)
 
@@ -7,7 +78,7 @@ cast = function(player)
 		player:setDuration("bomber_game", 0)
 	return else
 		player:sendAnimation(248)
-		player:setDuration("bomber_game", 120000)
+		player:setDuration("bomber_game", 100000)
 		gfxClone(player, player)
 		player.gfxWeap = 167
 		player.gfxWeapC = 50
@@ -21,6 +92,7 @@ while_cast = function(player)
 
 	local dura = player:getDuration("bomber_game")
 
+	bomber_game.bridge(player, math.random(1, 10))
 	player.gfxWeap = 167
 	player.gfxWeapC = 50
 	player:sendAnimation(367)
@@ -98,21 +170,72 @@ on_swing_while_cast = function(player)
 			end
 		end
 	end
-end
+end,
+
+
+bridge = function(player, id)
+	
+	local x
+	local y
+	local map = 20018
+
+
+	
+	if id == 1 or id == 2 or id == 9 or id == 10 then
+		if id == 1 then x = 65 y = 25 end
+		if id == 2 then x = 65 y = 30 end
+		if id == 9 then x = 84 y = 25 end
+		if id == 10 then x = 84 y = 30 end
+		tile = getTile(map, x, y)
+		if tile == 628 then
+			setTile(map, x, y, 218)
+			setTile(map, x, y+1, 221)
+		return else
+			setTile(map, x, y, 628)
+			setTile(map, x, y+1, 628)
+		end
+	return elseif id == 3 then
+		x = 71 y = 23
+	elseif id == 4 then
+		x = 72 y = 28
+	elseif id == 5 then
+		x = 71 y = 33
+	elseif id == 6 then
+		x = 76 y = 23
+	elseif id == 7 then
+		x = 77 y = 28
+	elseif id == 8 then
+		x = 76 y = 33
+	end
+	
+	local tile = getTile(map, x, y)
+	if tile == 628 then
+		setTile(map, x, y, 218)
+		setTile(map, x+1, y, 218)
+		setTile(map, x, y+1, 221)
+		setTile(map, x+1, y+1, 221)
+	return else
+		setTile(map, x, y, 628)
+		setTile(map, x+1, y, 628)
+		setTile(map, x, y+1, 628)
+		setTile(map, x+1, y+1, 628)
+	end
+end,
+
+
+
+
+
+
+
+
+
+
 }
 
 			
 
-bomber_start = {
-
-uncast = function(player)
-
-	local around = player:getObjectsInMap(player.m, BL_PC)
 	
-	bomber_game.cast(around[math.random(#around)])
-end
-			
-}	
 			
 			
 			

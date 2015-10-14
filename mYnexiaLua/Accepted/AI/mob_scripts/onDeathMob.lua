@@ -29,8 +29,6 @@ onDeathMob = function(mob)
 	elseif mob.yname == "king_of_rat" then
 		
 	elseif mob.yname == "" then
-		
-	elseif mob.yname == "" then
 	
 	end
 end

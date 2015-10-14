@@ -27,7 +27,7 @@ cast = function(player, target)
 			target:sendAnimation(anim)
 			player:playSound(sound)
 			target:removeHealthExtend(damage, 1,1,1,1,0)
-			target:sendMinitext(player.name.." hit you with Jujak Fire")
+			target:sendMinitext(player.name.." attack you with Jujak Fire")
 			player:sendMinitext("You cast Jujak Fire")
 		end
 	elseif target.blType == BL_MOB then
@@ -87,7 +87,7 @@ cast = function(player, target)
 			target:sendAnimation(anim)
 			player:playSound(sound)
 			target:removeHealthExtend(damage, 1,1,1,1,0)
-			target:sendMinitext(player.name.." hit you with Hyunmoo Snow")
+			target:sendMinitext(player.name.." attack you with Hyunmoo Snow")
 			player:sendMinitext("You cast Hyunmoo Snow")
 		end
 	elseif target.blType == BL_MOB then
@@ -147,7 +147,7 @@ cast = function(player, target)
 			target:sendAnimation(anim)
 			player:playSound(sound)
 			target:removeHealthExtend(damage, 1,1,1,1,0)
-			target:sendMinitext(player.name.." hit you with Baekho Surge")
+			target:sendMinitext(player.name.." attack you with Baekho Surge")
 			player:sendMinitext("You cast Baekho Surge")
 		end
 	elseif target.blType == BL_MOB then
@@ -207,7 +207,7 @@ cast = function(player, target)
 			target:sendAnimation(anim)
 			player:playSound(sound)
 			target:removeHealthExtend(damage, 1,1,1,1,0)
-			target:sendMinitext(player.name.." hit you with Chungryong Ray")
+			target:sendMinitext(player.name.." attack you with Chungryong Ray")
 			player:sendMinitext("You cast Chungryong Ray")
 		end
 	elseif target.blType == BL_MOB then

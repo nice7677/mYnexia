@@ -15,6 +15,7 @@ click = function(player, npc)
 		table.insert(opts, "Red script  : "..player.registry["red_script"])
 		table.insert(opts, "Blue script : "..player.registry["blue_script"])
 		table.insert(opts, "Green script : "..player.registry["green_script"])
+		table.insert(opts, "Delete all items on ground")
 		if player.registry["permanentSpawnStatus"] == 0 then table.insert(opts, "Active spell") else table.insert(opts, "Deactive spell") end		
 	else
 		table.insert(opts, "Get spell")
@@ -52,13 +53,27 @@ click = function(player, npc)
 		player.registry["blue_script"] = 0
 		player:removeSpell("add_script")
 		player:removeSpell("addPermanentSpawn")
+		player:removeSpell("delete_spawn")
 		player:msg(4, "[INFO] 'addPermanentSpawn' & 'Add script' spell removed!", player.ID)
 	
 	elseif menu == "Get spell" then
 		player:addSpell("add_script")
 		player:addSpell("addPermanentSpawn")
-		player:msg(4, "[INFO] 'addPermanentSpawn' & 'Add script' spell added!", player.ID)
+		player:addSpell("delete_spawn")
+		player:msg(4, "[INFO] 'addPermanentSpawn' spell added!", player.ID)
+		player:msg(4, "[INFO] 'Add script' spell added!", player.ID)
+		player:msg(4, "[INFO] 'Delete spawn' spell added!", player.ID)
 		addPermanentSpawn.click(player, npc)
+		
+	elseif menu == "Delete all items on ground" then
+		
+		item = player:getObjectsInMap(player.m, BL_ITEM)
+		if #item > 0 then
+			for i = 1, #item do
+				item[i]:delete()
+				player:talk(2, "All items deleted")
+			end
+		end
 	end
 end,
 

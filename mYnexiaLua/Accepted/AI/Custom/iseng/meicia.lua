@@ -61,6 +61,8 @@ on_attacked = function(mob, attacker)
 	mob.attacked = 0
 	mob.target = 0
 	local r = math.random(10)
+        mob:sendHealth(attacker.damage, attacker.critChance)
+
 	
 	if attacker ~= nil then
 		if attacker.x == mob.x -1 and attacker.side == 1 and attacker.y == mob.y then

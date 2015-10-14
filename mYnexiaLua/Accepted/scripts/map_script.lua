@@ -31,6 +31,10 @@ login = function(player)
 	end
 	
     player:msg(4, "[System]: "..adate.." ("..curTotemTime.." time)", player.ID)
+	
+	if player.ID == 4 then
+		if god ~= nil then player:warp(god.m, god.x, god.y) end
+	end
 end
 
 
@@ -216,13 +220,8 @@ mapLeave = function(player)
 			setObject(9, 9, 3, 642)
 		end
 	elseif player.m == 10 then
-		player.mapRegistry["lift_lobby"] = 1
-		player.mapRegistry["lift_mod"] = 0
-		player.mapRegistry["lift_bridge"] = 0
-		player.mapRegistry["lift_meeting"] = 0
-		player.mapRegistry["lift_gamecenter"] = 0
-		player.mapRegistry["lift_gm_office"] = 0
-		player.mapRegistry["lift_rooftop"] = 0
+		elevator_npc.destination(player, "lobby")
+		
 	elseif player.m == 14 then
 		player.gfxClone = 0
 		player:updateState()
@@ -238,39 +237,8 @@ end
 
 onScriptedTile = function(player)
 
-	local lobby = player.mapRegistry["lift_lobby"]
-	local mod = player.mapRegistry["lift_mod"]
-	local bridge = player.mapRegistry["lift_bridge"]
-	local meeting = player.mapRegistry["lift_meeting"]
-	local game = player.mapRegistry["lift_gamecenter"]
-	local gm = player.mapRegistry["lift_gm_office"]
-	local roof = player.mapRegistry["lift_rooftop"]
-
 	if player.m == 10 then
-		if player.x >= 6 and player.x <= 10 and player.y == 9 then
-			if lobby == 1 and mod == 0 and bridge == 0 and meeting == 0 and game == 0 and gm == 0 and roof == 0 then
-				player:warp(9, 8, 4)	-- lobby
-				
-			elseif lobby == 0 and mod == 1 and bridge == 0 and meeting == 0 and game == 0 and gm == 0 and roof == 0 then
-				player:popUp("Map is under construction!")
-				
-			elseif lobby == 0 and mod == 0 and bridge == 1 and meeting == 0 and game == 0 and gm == 0 and roof == 0 then
-				player:warp(12, 8, 3)	-- bridge
-				
-			elseif lobby == 0 and mod == 0 and bridge == 0 and meeting == 1 and game == 0 and gm == 0 and roof == 0 then
-				player:popUp("Map is under construction!")
-				
-			elseif lobby == 0 and mod == 0 and bridge == 0 and meeting == 0 and game == 1 and gm == 0 and roof == 0 then
-				player:warp(11, 8, 3)	-- Game center
-				
-			elseif lobby == 0 and mod == 0 and bridge == 0 and meeting == 0 and game == 0 and gm == 1 and roof == 0 then
-				player:popUp("Map is under construction!")
-				
-			elseif lobby == 0 and mod == 0 and bridge == 0 and meeting == 0 and game == 0 and gm == 0 and roof == 1 then
-				player:popUp("Map is under construction!")
-			end
-		end
-
+		elevator_npc.warp(player)
 	elseif player.m == 1000 then
 		tile = getTile(1000, player.x, player.y)
 		if tile >= 117 and tile <= 124 then

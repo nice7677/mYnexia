@@ -101,15 +101,15 @@ f1click = function(player, npc)
 			
 			opts = {}
 			if player.registry["throw_icon"] > 0 then
-				table.insert(opts, "Change")
 				table.insert(opts, "Disable")
 			elseif player.registry["throw_icon"] == 0 then
-				table.insert(opts, "Set Icon")
+				table.insert(opts, "Enable")
 			end
 				table.insert(opts, "Exit")
 			
 			menu = player:menuString("<b>[Icon Thrower]:\n\nIcon: "..player.registry["throw_icon"], opts)
-			if menu == "Change" or menu == "Set Icon" then
+			
+			if menu == "Change" or menu == "Set Icon" or menu == "Enable" then
 				input = player:input("Icon Number:\n0 for disable")
 				if tonumber(input) > 0 then
 					player.registry["throw_icon"] = tonumber(input)

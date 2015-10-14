@@ -36,18 +36,15 @@ end,
 
 while_cast = function(block)
 
-	if block.blType == BL_PC then
-		block.drunk = 1
-	end
-	
+	block.drunk = 1
 	block:playSound(24)
 	block:sendAnimation(318)
 end,
 
 uncast = function(block)
-	
-	if block.blType == BL_PC then block.drunk = 0 end
+
 	block:calcStat()
+	block.drunk = 0
 end,
 
 requirements = function(player)

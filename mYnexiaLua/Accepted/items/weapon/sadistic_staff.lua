@@ -1,56 +1,71 @@
+
 sadistic_staff = {
 
 on_swing = function(player)
-	
-	for i = 1, 7 do
-		pc = getTargetFacing(player, BL_PC, 0, i)
-		mob = getTargetFacing(player, BL_MOB, 0, i)
-		if mob ~= nil then
-			mob.attacker = player.ID
-			mob:removeHealthExtend(damage, 1,1,1,1,0)
-			mob:sendAnimation(300)
-			if mob:hasDuration("sadistic_staff") or player:hasAether("sadistic_staff") then return else
-				player:playSound(111)
-				mob:setDuration("sadistic_staff", 2000)
-				player:setAether("sadistic_staff", 15000)
-			end
-			return
-		end
-		if pc ~= nil then
-			if pc.state ~= 1 and player:canPK(pc) then
-				pc.attacker = player.ID
-				pc:removeHealthExtend(damage, 1,1,1,1,0)
-				pc:sendAnimation(300)
-				if pc:hasDuration("sadistic_staff") or player:hasAether("sadistic_staff") then return else
-					player:playSound(111)
-					pc:setDuration("sadistic_staff", 2000)
-					player:setAether("sadistic_staff", 10000)
-				end
-				return
-			end
-		end
-	end
+
+	sadistic_staff.cast(player)
 end,
 
 cast = function(player)
 	
-	local damage = math.random(2500, 3000)
+	local damage = math.random(1000, 2000)
 	
-	player.paralyed = true
+	for i = 1, 7 do
+		pc = getTargetFacing(player, BL_PC, 0, i)
+		mob = getTargetFacing(player, BL_MOB, 0, i)
+		if pc ~= nil then
+			pc:sendAnimation(300)
+			if player:hasAether("sadistic_staff") then return else
+				if player:canPK(pc) and pc.state ~= 1 then
+					pc.attacker = player.ID
+					pc:removeHealthExtend(damage, 1,1,1,1,0)
+					if pc:hasDuration("sadistic_staff") then return else
+						player:playSound(111)
+						pc:sendAnimation(235)
+						pc:setDuration("sadistic_staff", 2000)
+						player:setAether("sadistic_staff", 15000)
+						return
+					end
+				end
+			end
+
+		elseif mob ~= nil then
+			mob:sendAnimation(300)
+			if player:hasAether("sadistic_staff") then return else
+				mob:sendAnimation(235)
+				mob:removeHealthExtend(damage, 1,1,1,1,0)
+				if mob:hasDuration("sadistic_staff") then return else
+					player:playSound(111)
+					mob:sendAnimation(235)
+					mob:setDuration("sadistic_staff", 2000)
+					player:setAether("sadistic_staff", 15000)
+					return
+				end
+			end
+		end
+	end	
+end,
+
+
+while_cast = function(player)
+
+	player.paralyzed = true
 	player:sendAnimation(235)
-	player:setDuration("sadistic_staff", 2000)
-	player:playSound(111)
-	player:removeHealthExtend(damage, 1,1,1,1,0)
 end,
 
-while_cast = function(block)
+uncast = function(player)
 
-	block.paralyzed = true
-	block:sendAnimation(235)
+	player:calcStat()
+	player.paralyzed = false
 end,
 
-uncast = function(block)
-	
-	block.paralyzed = false
+effect = function(player, target)
+
+	if player:hasAether("sadistic_staff") or target:hasDuration("sadistic_staff") then return else
+		player:playSound(111)
+		target:sendAnimation(235)
+		target:setDuration("sadistic_staff", 2000)
+		player:setAether("sadistic_staff", 15000)
+	end
 end
 }

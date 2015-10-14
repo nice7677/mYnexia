@@ -336,6 +336,7 @@ distance = function(block, target)
 end
 
 distanceXY = function(block, x, y)
+
 	local dist = 0
 	
 	dist = dist + math.abs(block.x - x)

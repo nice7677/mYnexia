@@ -30,16 +30,22 @@ onCast = function(player)
 		pc = Player(player.target)
 		mob = Mob(player.target)
 		if weap.yname == "sadistic_staff" then
-			if pc ~= nil and player:canPK(pc) and pc.state ~= 1 and pc.ID ~= player.ID then
-				if pc:hasDuration("sadistic_staff") or player:hasAether("sadistic_staff") then return else
-					sadistic_staff.cast(pc)
-					player:setAether("sadistic_staff", 10000)
-				end
+			if player:hasAether("sadistic_staff") then return end
+			if player:canPK(pc) and pc.state ~= 1 and pc.ID ~= player.ID then
+				sadistic_staff.effect(player, pc)
+				player:setAether("sadistic_staff", 15000)
 			elseif mob ~= nil and mob.owner == 0 then
-				if mob:hasDuration("sadistic_staff") or player:hasAether("sadistic_staff") then return else
-					sadistic_staff.cast(mob)
-					player:setAether("sadistic_staff", 10000)
-				end
+				sadistic_staff.effect(player, mob)
+				player:setAether("sadistic_staff", 15000)
+			end
+		elseif weap.yname == "death_brain" then
+			if player:hasAether("death_brain") then return end
+			if player:canPK(pc) and pc.state ~= 1 and pc.ID ~= player.ID then
+				death_brain.effect(player, pc)
+				player:setAether("death_brain", 15000)	
+			elseif mob ~= nil and mob.owner == 0 then
+				death_brain.effect(player, mob)
+				player:setAether("death_brain", 15000)
 			end
 		end
 
@@ -57,6 +63,8 @@ onCast = function(player)
 					sword_of_baekho.strike(pc)
 				elseif weap.yname == "kwansae_axe" then
 					kwansae_axe.strike(pc)
+				elseif weap.yname == "spear_of_stealth" then
+					spear_of_stealth.cast(player)
 				end
 			end
 			if mob ~= nil and mob.owner == 0 then
@@ -72,6 +80,8 @@ onCast = function(player)
 					sword_of_baekho.strike(mob)
 				elseif weap.yname == "kwansae_axe" then
 					kwansae_axe.strike(mob)
+				elseif weap.yname == "spear_of_stealth" then
+					spear_of_stealth.cast(player)
 				end
 			end
 		end

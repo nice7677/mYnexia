@@ -12,11 +12,14 @@ click = async(function(player, npc)
 	local r = math.random(1,5)
 	local opts = {}
 	table.insert(opts, "The great maze")
+	table.insert(opts, "Bomber mania")
 	table.insert(opts, "Exit")
 	
 	menu = player:menuString("<b>[Games officer]\n\nWhat game you want to play?", opts)
 	
 	if menu == "The great maze" then
+		player:popUp("Sorry, Maze is underconstruction!")
+		return
 --[[
 		if player.registry["enter_great_maze"] > os.time() then
 			player:dialogSeq({t, "<b>[Games officer]\n\nYou only can enter maze 1 time in 1 hour.."})
@@ -31,7 +34,9 @@ click = async(function(player, npc)
 			player:warp(20017, x, y)
 		end
 ]]--
-		
+	
+	elseif menu == "Bomber mania" then
+		player:warp(20018, 24, 14)
 	end
 end)
 }

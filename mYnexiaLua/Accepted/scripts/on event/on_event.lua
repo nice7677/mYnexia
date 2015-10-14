@@ -233,16 +233,6 @@ end
 
 onUnequip = function(player, item)
 
-	local weap = player:getEquippedItem(EQ_WEAP)
-	
-	if weap.id == player.takeOffID then
-		player:talk(0, "a")
-	end
-	player.registry["enchant"] = 0
-	player.registry["infuse"] = 0
-	player.registry["ingress"] = 0
-	
-	
 	player:takeOff()
 	if player.gfxClone == 1 then gfxClone(player, player) player:updateState() end
 end
@@ -289,6 +279,8 @@ onThrow = function(player,item)
 end
 
 onAction = function(player)
+	
+	local moved = true
 	
 	if player.state == 2 then
 		if player:hasDuration("shadow") then return else

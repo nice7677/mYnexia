@@ -56,6 +56,12 @@ second = function(player)
 			pet:talk(2, "!!!")
 		end
 	end
+	
+	if player.m == 2007 then
+		player:playSound(math.random(50,53))
+		player:sendAnimationXY(math.random(40, 41), math.random(13, 26), math.random(20, 26))
+		player:sendAnimationXY(math.random(45, 46), math.random(13, 26), math.random(20, 26))
+	end
 end,
 
 second2 = function(player)
@@ -84,7 +90,6 @@ minute = function(player)
 	if player.level >= 2 and #spells <= 0 then player:msg(4, "(Spirit of Genesis) You can learn some spells from a nearby path trainer", player.ID) end
 	if (minutes < 60) and (minutes%30 == 0) then
 		player:msg(2,"You have been playing for "..minutes.." minutes.",player.ID)
-		maze.changeDoor(player)
 	end	
 end,
 

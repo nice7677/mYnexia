@@ -13,7 +13,7 @@ click = async(function(player, npc)
 	local total = player.registry["wardrobe_total"]
 	local max = player.registry["max_wardrobe"]
 	
-	local buy = {40, 16, 21, 18005, 18004, 18006, 18007, 4080, 4081, 15001}
+	local buy = {40, 16, 21, 18005, 18004, 18006, 18007, 4080, 4081, 15003}
 	
 	if player.registry["bank_pin"] == 0 then
 		register_bankPin.click(player, npc)

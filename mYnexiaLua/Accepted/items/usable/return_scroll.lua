@@ -7,15 +7,16 @@ use = function(player)
 	local r = math.random(1,3)
 	
 	if not player:canAction(1,1,1) then return end
-	
-	if player.m == 20017 then
+	if player.m == 14 or player.m == 15 then player:popUp("You cannot use return scroll here") return end
+
+	if player.m == 20017 or player.m == 20018 then
 		player:warp(11, math.random(13,14), 10)
-		player:sendAnimation(16)
+		player:sendAnimation(296)
 		player:playSound(29)
 		return
 	end
 	
-	if player.country == 2 then 			--Buya
+	if player.country == 2 then 						--Buya
 		spring = 1002
 		yunsil = 1001
 		pepper = 1006
